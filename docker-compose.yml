@@ -18,11 +18,9 @@ services:
       timeout: 5s
       retries: 5
 
-  # Dokploy Application (built from local Dockerfile)
+  # Dokploy Application (pre-built image from Docker Hub)
   dokploy:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: dokploy/dokploy:v0.30.8
     container_name: dokploy
     restart: unless-stopped
     ports:
