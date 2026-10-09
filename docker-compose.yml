@@ -35,7 +35,8 @@ services:
       - "traefik.http.routers.dokploy.entrypoints=websecure"
       - "traefik.http.routers.dokploy.tls=true"
       - "traefik.http.routers.dokploy.tls.certresolver=letsencrypt"
-      - "traefik.http.services.dokploy.loadbalancer.server.port=443"
+      - "traefik.http.routers.dokploy.tls.certresolver.domains.main=baipoker.com"
+      - "traefik.http.services.dokploy.loadbalancer.server.port=3001"
     env_file:
       - ./.env
     volumes:
