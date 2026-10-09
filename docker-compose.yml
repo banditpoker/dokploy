@@ -21,6 +21,8 @@ services:
     image: dokploy/dokploy:v0.30.8
     container_name: dokploy
     restart: unless-stopped
+    env_file:
+      - ./.env.production
     ports:
       - "3001:3001"
     environment:
@@ -32,7 +34,6 @@ services:
       NODE_ENV: "production"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./.env.production:/app/.env
     depends_on:
       postgres:
         condition: service_healthy
