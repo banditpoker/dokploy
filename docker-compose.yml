@@ -10,6 +10,8 @@ services:
       POSTGRES_DB: dokploy
     volumes:
       - /tmp/postgres/data:/var/lib/postgresql/data
+    env_file:
+    - .env.production
     networks:
       - traefik_traefik-net
     healthcheck:
