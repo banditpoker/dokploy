@@ -11,7 +11,7 @@ services:
     volumes:
       - /tmp/postgres/data:/var/lib/postgresql/data
     networks:
-      - traefik-net
+      - traefik_traefik-net
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U dokploy"]
       interval: 10s
