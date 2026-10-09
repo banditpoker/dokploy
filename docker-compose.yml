@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # PostgreSQL Database
   postgres:
@@ -35,13 +33,13 @@ services:
       NODE_ENV: "production"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./.env:/app/.env
+      - ./.env.production:/app/.env
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - traefik-net
+      - traefik_traefik-net
 
 networks:
-  traefik-net:
+  traefik_traefik-net:
     external: true
