@@ -29,6 +29,13 @@ services:
       POSTGRES_DB: "${POSTGRES_DB}"
       DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
       NODE_ENV: "production"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dokploy.rule=Host(`dokploy.${BASE_DOMAIN:?Set BASE_DOMAIN in .env}`)"
+      - "traefik.http.routers.dokploy.entrypoints=websecure"
+      - "traefik.http.routers.dokploy.tls=true"
+      - "traefik.http.routers.dokploy.tls.certresolver=letsencrypt"
+      - "traefik.http.services.dokploy.loadbalancer.server.port=443"
     env_file:
       - ./.env
     volumes:
