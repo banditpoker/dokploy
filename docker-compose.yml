@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: dokploy
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: dokploy
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    networks:
+      - traefik-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dokploy"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Dokploy Application (built from local Dockerfile)
+  dokploy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dokploy
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: "postgres://dokploy:${POSTGRES_PASSWORD}@postgres:5432/dokploy"
+      PORT: "3001"
+      NODE_ENV: "production"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    external: true
