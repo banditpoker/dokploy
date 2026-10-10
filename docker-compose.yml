@@ -39,7 +39,8 @@ services:
       - ./.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ../traefik/traefik/traefik.yml:/etc/traefik/traefik.yml
+      - /tmp/dokploy-data:/etc/dokploy
+      - ../traefik/traefik/traefik.yml:/etc/dokploy/traefik/traefik.yml
       - ../traefik/traefik/dynamic:/etc/dokploy/traefik/dynamic
     depends_on:
       postgres:
