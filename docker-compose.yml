@@ -39,6 +39,8 @@ services:
       - ./.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./dynamic:/etc/traefik/dynamic:ro
     depends_on:
       postgres:
         condition: service_healthy
